@@ -2,6 +2,8 @@ import socket
 import threading
 from time import sleep
 
+from dns.dns_resource_record import DNSHeader
+
 
 class DNSServer:
     LOOP_UP_SERVER = ['8.8.8.8', '8.8.4.4', '9.9.9.9', '149.112.112.112']
@@ -32,14 +34,15 @@ class DNSServer:
         while self.alive:
             sleep(self.SERVER_CONNECTION_POLL_INTERVAL)
             data, server = self.udps.recvfrom(self.RECEIVE_SIZE)
-
-            print(data)
             print(server)
+            for val in data:
+                print(val)
+
 
             response = self.resolve(data)
 
-            self.udps.sendto(response, server)
+            #self.udps.sendto(response, server)
 
-    def resolve(self, hostname):
-        pass
+    def resolve(self, request):
+        record = DNSHeader(request)
 
