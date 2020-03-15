@@ -36,7 +36,9 @@ class DNSServer:
             print(data)
             print(server)
 
-            self.udps.sendto(data, server)
+            response = self.resolve(data)
+
+            self.udps.sendto(response, server)
 
     def resolve(self, hostname):
         pass
